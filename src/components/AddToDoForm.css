@@ -1,0 +1,220 @@
+.add-button{
+    position: fixed;
+    left: 48%;
+    top: 47%;
+    border-radius: 100%;
+    height: 75px;
+    width: 75px;
+    background-image: url("../assets/eye.jpg");
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    /*color: black;*/
+    /*border: black 1px solid;*/
+    font-size: 1em;
+}
+
+.form {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.form-card {
+    background-color: aquamarine;
+    width: 30%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    height: 50vh;
+    margin-top: 15%;
+}
+
+.form-shadow{
+    position: absolute;
+    z-index: -1;
+    content: "";
+    background: rebeccapurple;
+    width: 31%;
+    height: 50.5vh;
+    left: 34.5%;
+    top: 51.4%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+
+.form-input-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.form-input-col-1 {
+    margin-right: 1%;
+    margin-top: 30%;
+}
+
+.form-input-col-1 > div > input {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    box-shadow: black 2px 2px 5px;
+}
+
+.form-input-col-1 > div > input {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    box-shadow: black 2px 2px 5px 1px;
+    outline: none;
+    border: none;
+}
+
+.form-input-col-1 > div > select {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    width: 100%;
+    box-shadow: black 2px 2px 5px 1px;
+    outline: none;
+    border: none;
+}
+
+.form-input-col-2 {
+    margin-top: 30%;
+}
+
+.form-input-col-2 > div > input {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    box-shadow: black 2px 2px 5px 1px;
+    outline: none;
+    border: none;
+    /*margin-right: 2%;*/
+}
+
+.input-container {
+    position: relative;
+}
+
+.creation-input {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    box-shadow: black 2px 2px 5px;
+    width: 200px; /* Set the width of the input */
+}
+
+.completion-input {
+    height: 30px;
+    text-align: center;
+    margin-bottom: 10%;
+    box-shadow: black 2px 2px 5px;
+    width: 200px; /* Set the width of the input */
+}
+
+/* Tooltip text */
+.input-container:hover .tooltip-input::before {
+    content: attr(title);
+    position: absolute;
+    top: -30px; /* Adjust the distance from the input */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevent line break */
+    opacity: 0.7; /* Adjust the opacity of the tooltip */
+}
+
+
+
+
+.status-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.status-input > div {
+    display: flex; /* Use flexbox for child elements */
+    align-items: center; /* Center child elements vertically */
+    margin-right: 8px; /* Add spacing between checkbox and text */
+}
+
+.status-input > div:last-child {
+    margin-right: 0; /* Remove margin from the last child to avoid extra spacing */
+}
+
+.status-input > div > p {
+    margin: 0; /* Reset margin to remove default spacing */
+    font-size: 1.3em;
+}
+
+
+
+.priority-checkboxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.priority-checkboxes > div {
+    margin-right: 20px; /* Add spacing between checkbox and text */
+}
+
+.priority-checkboxes > div > p {
+    margin-top: 0; /* Reset margin to remove default spacing */
+    font-size: 1em;
+}
+
+.form-button{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+@media (max-width: 768px) {
+    .form-card {
+        width: 80%;
+        margin-top: 10%;
+    }
+
+    .form-shadow{
+        width: 81%;
+        height: 50.5vh;
+        left: 9.5%;
+        top: 51.4%;
+    }
+
+    .form-input-col-1 {
+        margin-right: 0;
+    }
+
+    .form-input-col-1 > div > input {
+        width: 100%;
+    }
+
+    .form-input-col-1 > div > select {
+        width: 100%;
+    }
+
+    .form-input-col-2 > div > input {
+        width: 100%;
+    }
+
+    .creation-input {
+        width: 100%;
+    }
+
+    .completion-input {
+        width: 100%;
+    }
+
+    .form-button{
+        display: flex;
+        justify-content: center;
+    }
+}
+
