@@ -1,239 +1,132 @@
-.category-mind-container {
-    background-color: rgba(102, 51, 153);
-    position: absolute;
-    top: 55%;
-    left: 48%;
-    border-radius: 50%;
-    width: 4%;
-    text-align: center;
-    cursor: grab;
-}
-
-.category-mind-container.open {
-    background-color: rgba(102, 51, 153, .40);
-    position: absolute;
-    top: 10%;
-    left: 0;
-    width: 90%;
-    height: 85%;
-    border-radius: 0;
-    margin-left: 5%;
-    z-index: 1;
-    box-shadow: black 10px 10px 25px 15px;
-}
-
-.category-mind-list {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 5%;
-}
-
-.category-mind-list > li {
-    margin-bottom: 2%;
+.todo-list-container {
     display: flex;
     align-items: center;
-    height: 5vh;
-    background-color: mediumpurple;
-    transition: box-shadow 1s ease; /* Add transition */
-}
-
-.category-mind-list > li:hover {
-    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7); /* Add box-shadow */
-    transition: box-shadow 0.5s ease; /* Add transition */
+    justify-content: center;
+    align-content: center;
+    margin-left: 7%;
+    margin-top: 5%;
+    width: 85%; /* Adjust as needed */
+    height: 70vh;
 
 }
 
-.category-mind-list > li > div {
+.todo-list-card {
+    display: flex;
     flex: 1;
-    text-align: center;
+    width: 100%;
+    background-color: rgba(127, 255, 212, .4);
+    border-radius: 25px;
+    box-shadow: 1px 3px 1px 1px black;
+    padding: 2%;
+    overflow: scroll;
+    height: 100%;
 }
 
-.category-body-container {
-    background-color: rgba(255, 255, 0, 1);
-    position: absolute;
-    top: 75%;
-    right: 48%;
-    border-radius: 50%;
-    width: 4%;
-    text-align: center;
+.todo-list-card::-webkit-scrollbar {
+    background: none;
+    /*background-color: rgb(102, 51, 153, .9);*/
+}
+
+.todo-list-card::-webkit-scrollbar-thumb{
+    background: none;
+}
+
+.header-item-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+    width: 100%;
+}
+
+/* Styles for task container based on priority */
+.high-priority {
+    background-color: #ffcccc; /* Light red for high priority */
+    transition: ease-in-out 0.5s;
+}
+
+.high-priority:hover {
+    box-shadow: black 2px 2px 5px 1px;
+    transition: ease-in-out 0.5s;
+}
+
+.medium-priority {
+    background-color: #fff3cd; /* Light yellow for medium priority */
+    transition: ease-in-out 0.5s;
+}
+
+.medium-priority:hover {
+    box-shadow: black 2px 2px 5px 1px;
+    transition: ease-in-out 0.5s;
+}
+
+.low-priority {
+    background-color: #d4edda; /* Light green for low priority */
+    transition: ease-in-out 0.5s;
+}
+
+.low-priority:hover {
+    box-shadow: black 2px 2px 5px 1px;
+    transition: ease-in-out 0.5s;
+}
+
+.task-container{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjustments for task container */
+.task-container-card {
+    border-bottom: 1px solid #ddd;
+    padding: 1%; /* Add padding for better spacing */
+    margin-bottom: 1%;
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+}
+
+.grid-item-header{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr .25fr;
+
+}
+
+.add-button{
     cursor: pointer;
+    width: 35px;
+    height: 35px;
+    border: none;
+    color: purple;
+    background: none;
+    font-size: 2em;
 }
 
-.category-body-container.open {
-    background-color: rgba(255, 255, 0, .40);
-    position: absolute;
-    top: 10%;
-    left: 0;
-    width: 90%;
-    height: 85%;
-    border-radius: 0;
-    margin-left: 5%;
-    z-index: 1;
-    box-shadow: black 10px 10px 25px 15px;
-    cursor: initial;
-}
-
-.category-body-list {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 5%;
-}
-
-.category-body-list > li {
-    margin-bottom: 2%;
-    display: flex;
-    align-items: center;
-    height: 5vh;
-    background-color: goldenrod;
-    transition: box-shadow 1s ease; /* Add transition */
-}
-
-.category-body-list > li:hover {
-    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7); /* Add box-shadow */
-    transition: box-shadow 0.5s ease; /* Add transition */
+.grid-item{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr .25fr;
 
 }
 
-.category-body-list > li > div {
-    flex: 1;
-    text-align: center;
+.task-checkbox{
+    cursor: pointer;
+    margin-top: 9%;
+    width: 15px;
+    height: 15px;
 }
 
-.category-soul-container {
-    position: absolute;
-    top: 85%;
-    right: 48%;
-    background-color: rgba(0, 0, 255, 1);
-    border-radius: 50%;
-    width: 4%;
-    text-align: center;
-}
-
-.category-soul-container.open {
-    background-color: rgba(0, 0, 255, .40);
-    position: absolute;
-    top: 10%;
-    left: 0;
-    width: 90%;
-    height: 85%;
-    border-radius: 0;
-    margin-left: 5%;
-    z-index: 1;
-    box-shadow: black 10px 10px 25px 15px;
-}
-
-.category-soul-list {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 5%;
-}
-
-.category-soul-list > li {
-    margin-bottom: 2%;
-    display: flex;
-    align-items: center;
-    height: 5vh;
-    background-color: deepskyblue;
-    transition: box-shadow 1s ease; /* Add transition */
-}
-
-.category-soul-list > li:hover {
-    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7); /* Add box-shadow */
-    transition: box-shadow 0.5s ease; /* Add transition */
-
-}
-
-.category-soul-list > li > div {
-    flex: 1;
-    text-align: center;
-}
-
-.category-heart-container {
-    position: absolute;
-    top: 65%;
-    right: 48%;
-    background-color: rgba(255, 20, 147, 1);
-    border-radius: 50%;
-    width: 4%;
-    text-align: center;
-}
-
-.category-heart-container.open {
-    background-color: rgba(255, 20, 147, .40);
-    position: absolute;
-    top: 10%;
-    left: 0;
-    width: 90%;
-    height: 85%;
-    border-radius: 0;
-    margin-left: 5%;
-    z-index: 1;
-    box-shadow: black 10px 10px 25px 15px;
-}
-
-.category-heart-list {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    padding: 0;
-    margin: 5%;
-}
-
-.category-heart-list > li {
-    margin-bottom: 2%;
-    display: flex;
-    align-items: center;
-    height: 5vh;
-    background-color: violet;
-    transition: box-shadow 1s ease; /* Add transition */
-}
-
-.category-heart-list > li:hover {
-    box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.7); /* Add box-shadow */
-    transition: box-shadow 0.5s ease; /* Add transition */
-
-}
-
-.category-heart-list > li > div {
-    flex: 1;
-    text-align: center;
-}
-
-.category-mind-item.completed,
-.category-body-item.completed,
-.category-soul-item.completed,
-.category-heart-item.completed {
+.task-complete {
     text-decoration: line-through;
+    color: gray; /* Optional: Change text color for completed tasks */
 }
 
-/* Add styles for low priority */
-.category-mind-item.low,
-.category-body-item.low,
-.category-soul-item.low,
-.category-heart-item.low{
-    border-left: 5px solid green;
+.delete-button {
+    width: 30px;
+    height: 25px;
+    color: #ff4d4d;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
 }
 
-/* Add styles for medium priority */
-.category-mind-item.medium,
-.category-body-item.medium,
-.category-soul-item.medium,
-.category-heart-item.medium{
-    border-left: 5px solid orange;
+.delete-button:hover{
+    box-shadow: black 2px 2px 2px 1px;
 }
-
-/* Add styles for high priority */
-.category-mind-item.high,
-.category-body-item.high,
-.category-soul-item.high,
-.category-heart-item.high{
-    border-left: 5px solid red;
-}
-
 

@@ -1,14 +1,14 @@
-// AddToDoForm.js
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './AddToDoForm.css';
 
-const AddToDoForm = ({tasks, setTasks}) => {
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [showForm, setShowForm] = useState(false);
+const AddToDoForm = ({ tasks, setTasks, showForm, setShowForm, categories = [], setCategories }) => {
+    const [newCategory, setNewCategory] = useState(''); // For new category input
+    const [selectedCategory, setSelectedCategory] = useState(''); // For selected category from dropdown
     const [highPriority, setHighPriority] = useState(false);
     const [mediumPriority, setMediumPriority] = useState(false);
     const [lowPriority, setLowPriority] = useState(false);
+    const [selectedInterval, setSelectedInterval] = useState(30); // Default to 30 minutes
     const [newTask, setNewTask] = useState({
         task: '',
         description: '',
@@ -18,8 +18,6 @@ const AddToDoForm = ({tasks, setTasks}) => {
         priority: '',
         status: 'Incomplete'
     });
-
-    const categories = ['Mind', 'Body', 'Soul', 'Heart'];
 
     const handleHighPriorityChange = () => {
         setHighPriority(!highPriority);
@@ -35,7 +33,6 @@ const AddToDoForm = ({tasks, setTasks}) => {
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
-        console.log(event.target.value)
     };
 
     const handleInputChange = (event) => {
@@ -45,9 +42,10 @@ const AddToDoForm = ({tasks, setTasks}) => {
         });
     };
 
-    const handleButtonClick = () => {
-        setShowForm(!showForm);
+    const handleIntervalChange = (event) => {
+        setSelectedInterval(parseInt(event.target.value));
     };
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -58,7 +56,7 @@ const AddToDoForm = ({tasks, setTasks}) => {
             category: selectedCategory,
             id: uuidv4()
         };
-        console.log("Task with Priority:", taskWithPriority); // Log the task with priority
+
         setTasks([...tasks, taskWithPriority]);
 
         localStorage.setItem('tasks', JSON.stringify([...tasks, taskWithPriority]));
@@ -75,22 +73,57 @@ const AddToDoForm = ({tasks, setTasks}) => {
         setHighPriority(false);
         setMediumPriority(false);
         setLowPriority(false);
-        console.log("Tasks after adding new task:", tasks); // Log the tasks after adding the new task
-        console.log("Form submitted");
         setShowForm(false);
+
+        // Schedule alert
+        scheduleAlerts(taskWithPriority, selectedInterval);
     };
 
+    const scheduleAlerts = (task, intervalInMinutes) => {
+        const now = new Date();
+        const completeBy = new Date(task.completeBy);
+
+        if (now < completeBy) {
+            const intervalTime = intervalInMinutes * 60 * 1000; // Convert minutes to milliseconds
+            if (intervalInMinutes === 0) {
+                // Special case for 10 seconds
+                setTimeout(() => {
+                    alert(`Task "${task.task}" is due soon!`);
+                }, 10000); // 10 seconds in milliseconds
+            } else {
+                const intervalId = setInterval(() => {
+                    const timeRemaining = new Date(task.completeBy) - new Date();
+                    if (timeRemaining <= intervalTime) {
+                        alert(`Task "${task.task}" is due soon!`);
+                    }
+                    if (timeRemaining <= 0) {
+                        clearInterval(intervalId); // Stop the interval when the task is due
+                    }
+                }, intervalTime);
+            }
+        }
+    };
+
+    useEffect(() => {
+        tasks.forEach(task => scheduleAlerts(task, selectedInterval));
+    }, [tasks, selectedInterval]);
+
+    useEffect(() => {
+        console.log('Categories:', categories);
+        if (!categories.includes(selectedCategory)) {
+            setSelectedCategory('');
+        }
+    }, [categories]);
 
     return (
         <div>
-            <button className="add-button" onClick={handleButtonClick}> .</button>
             {showForm && (
                 <form className="form" onSubmit={handleSubmit}>
-
                     <div className="form-card">
-
+                        <div className="form-card-title">
+                            <h1>Add Task</h1>
+                        </div>
                         <div className="form-input-container">
-
                             <div className="form-input-col-1">
                                 <div>
                                     <input className="task-input"
@@ -110,14 +143,15 @@ const AddToDoForm = ({tasks, setTasks}) => {
                                         onChange={handleInputChange}/>
                                 </div>
 
+                                {/* Existing Categories Dropdown */}
                                 <div>
                                     <select
                                         className="category-input"
                                         value={selectedCategory}
-                                        onChange={handleCategoryChange}>
-
+                                        onChange={handleCategoryChange}
+                                    >
                                         <option value="">Select a category</option>
-                                        {categories.map(category => (
+                                        {categories && categories.length > 0 && categories.map(category => (
                                             <option key={category} value={category}>{category}</option>
                                         ))}
                                     </select>
@@ -192,11 +226,21 @@ const AddToDoForm = ({tasks, setTasks}) => {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Interval Selection */}
+                        <div className="form-interval">
+                            <p>Alert Interval</p>
+                            <select className="interval-input" value={selectedInterval} onChange={handleIntervalChange}>
+                                <option value={0}>10 seconds (Test)</option>
+                                <option value={30}>30 minutes</option>
+                                <option value={60}>1 hour</option>
+                            </select>
+                        </div>
+
                         <div className="form-button">
                             <button type="submit">Add To Do</button>
                         </div>
                     </div>
-                    <div className="form-shadow"></div>
                 </form>
             )}
         </div>

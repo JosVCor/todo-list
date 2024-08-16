@@ -1,84 +1,149 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './ToDoList.css';
+import AddToDoForm from "./AddToDoForm";
+import SideBar from "./SideBar";
 
-// Utility function to format date and time
-const formatDateTime = (dateTimeString) => {
-    const dateTime = new Date(dateTimeString);
-    const options = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: true // Use 24-hour format
-    };
-    return dateTime.toLocaleString('en-US', options);
-};
+const ToDoList = ({ tasks, setTasks, deleteTask, categories, setCategories }) => {
 
-// ToDoList component
-const ToDoList = ({ tasks, onDeleteTask, updateTasks }) => {
-    const [openCategory, setOpenCategory] = useState(null);
+    const [showForm, setShowForm] = React.useState(false);
+    const [selectedCategory, setSelectedCategory] = React.useState(null);
+    const [sortOrder, setSortOrder] = React.useState('asc');
+    const [completeBySortOrder, setCompleteBySortOrder] = React.useState('asc');
+    const [activeSortField, setActiveSortField] = React.useState('createdOn'); // New state for active sort field
 
-    const categories = [...new Set(tasks.map(task => task.category))];
-
-    const toggleCategory = (category) => {
-        console.log('Toggle category:', category);
-        if (openCategory === category) {
-            setOpenCategory(null);
-        } else {
-            setOpenCategory(category);
+    const getPriorityClass = (priority) => {
+        switch (priority) {
+            case 'High':
+                return 'high-priority';
+            case 'Medium':
+                return 'medium-priority';
+            case 'Low':
+                return 'low-priority';
+            default:
+                return '';
         }
     };
 
-    const toggleTaskStatus = (taskToUpdate) => {
-        console.log('Updating task:', taskToUpdate);
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+    };
 
+    const handleStatusChange = (taskId) => {
         const updatedTasks = tasks.map(task =>
-            task.id === taskToUpdate.id ? { ...task, status: task.status === 'complete' ? 'incomplete' : 'complete' } : task
+            task.id === taskId
+                ? { ...task, status: task.status === 'Incomplete' ? 'Complete' : 'Incomplete' }
+                : task
         );
-        updateTasks(updatedTasks);
+        setTasks(updatedTasks);
+        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
     };
 
-    const stopPropagation = (event) => {
-        event.stopPropagation();
+    const handleSort = () => {
+        const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortOrder(newSortOrder);
+        setActiveSortField('createdOn'); // Set active sort field to "Created on"
     };
+
+    const handleCompleteBySort = () => {
+        const newSortOrder = completeBySortOrder === 'asc' ? 'desc' : 'asc';
+        setCompleteBySortOrder(newSortOrder);
+        setActiveSortField('completeBy'); // Set active sort field to "Complete by"
+    };
+
+    const sortedTasks = [...tasks].sort((a, b) => {
+        if (activeSortField === 'createdOn') {
+            if (sortOrder === 'asc') {
+                return new Date(a.createdOn) - new Date(b.createdOn);
+            } else {
+                return new Date(b.createdOn) - new Date(a.createdOn);
+            }
+        } else if (activeSortField === 'completeBy') {
+            if (completeBySortOrder === 'asc') {
+                return new Date(a.completeBy) - new Date(b.completeBy);
+            } else {
+                return new Date(b.completeBy) - new Date(a.completeBy);
+            }
+        }
+        return 0;
+    });
+
+    const filteredTasks = selectedCategory
+        ? sortedTasks.filter(task => task.category === selectedCategory)
+        : sortedTasks;
 
     return (
         <div className="todo-list-container">
-            {categories.map((category, index) => (
-                <div key={category}
-                     className={`category-${category.toLowerCase()}-container ${openCategory === category ? 'open' : ''}`}
-                     onClick={() => toggleCategory(category)}>
-                    <h2>{`${category}`}</h2>
-                    {openCategory === category && (
-                        <>
-                            <ul className={`category-${category.toLowerCase()}-list`} onClick={stopPropagation}>
-                                {tasks
-                                    .filter(task => task.category === category)
-                                    .map((task, index) => (
-                                        <li key={index} className={`category-${category.toLowerCase()}-item ${task.status === 'complete' ? 'completed' : ''} ${task.priority.toLowerCase()}`}>
-                                            <div>
-                                                {/* Render checkbox to toggle task status */}
-                                                <input type="checkbox"
-                                                       checked={task.status === 'complete'}
-                                                       onChange={() => toggleTaskStatus(task)}/>
-                                            </div>
-                                            <div>{task.task}</div>
-                                            <div>{task.description}</div>
-                                            <div>{formatDateTime(task.createdOn)}</div>
-                                            <div>{formatDateTime(task.completeBy)}</div>
-                                            <div>{task.priority}</div>
-                                            <div>
-                                                <i className="fa-solid fa-trash" onClick={() => onDeleteTask(task)}></i>
-                                            </div>
-                                        </li>
-                                    ))}
-                            </ul>
-                        </>
-                    )}
+            <div className="todo-list-card">
+                <SideBar
+                    categories={categories}
+                    setCategories={setCategories}
+                    selectedCategory={null}
+                    onCategorySelect={handleCategorySelect}
+                />
+                <div className="header-item-container">
+                    <div className="grid-container-header">
+                        <div className="grid-item-header">
+                            <h4>Status</h4>
+                            <h4>Task</h4>
+                            <h4>Description</h4>
+                            <h4 onClick={handleSort} style={{cursor: 'pointer'}}>
+                                Created on {sortOrder === 'asc' ? '↑' : '↓'}
+                            </h4>
+                            <h4 onClick={handleCompleteBySort} style={{cursor: 'pointer'}}>
+                                Complete by {completeBySortOrder === 'asc' ? '↑' : '↓'}
+                            </h4>
+                            <button className="add-button" onClick={() => setShowForm(!showForm)}>
+                                <i className="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="task-container">
+                        {filteredTasks.length > 0 ? filteredTasks.map((task) => (
+                            <div key={task.id} className={`task-container-card ${getPriorityClass(task.priority)}`}>
+                                <div className="grid-container">
+                                    <div className="grid-container-body">
+                                        <div className="grid-item">
+                                            <input
+                                                className="task-checkbox"
+                                                type="checkbox"
+                                                checked={task.status === 'Complete'}
+                                                onChange={() => handleStatusChange(task.id)}
+                                            />
+                                            <p className={task.status === 'Complete' ? 'task-complete' : ''}>
+                                                {task.task}
+                                            </p>
+                                            <p className={task.status === 'Complete' ? 'task-complete' : ''}>
+                                                {task.description}
+                                            </p>
+                                            <p className={task.status === 'Complete' ? 'task-complete' : ''}>
+                                                {new Date(task.createdOn).toLocaleString()}
+                                            </p>
+                                            <p className={task.status === 'Complete' ? 'task-complete' : ''}>
+                                                {new Date(task.completeBy).toLocaleString()}
+                                            </p>
+                                            <button
+                                                className="delete-button"
+                                                onClick={() => deleteTask(task.id)}
+                                            >
+                                                <i className="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )) : <p>No tasks available</p>}
+                    </div>
                 </div>
-            ))}
+            </div>
+            <AddToDoForm
+                tasks={tasks}
+                setTasks={setTasks}
+                showForm={showForm}
+                setShowForm={setShowForm}
+                categories={categories}
+                setCategories={setCategories}
+            />
         </div>
     );
 };

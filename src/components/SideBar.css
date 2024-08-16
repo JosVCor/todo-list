@@ -1,0 +1,61 @@
+.sidebar-container{
+    margin: 0;
+    background-color: rgb(102, 51, 153, .5);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 12%;
+    padding: 2%;
+    border-radius: 25px;
+    box-shadow: 0px 1px 5px 1px black;
+}
+
+.sidebar-card{
+    margin: 0;
+}
+
+.categories-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.categories-list > li{
+    display: flex;
+    padding-left: 25%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10%;
+    cursor: pointer;
+    background: rgba(0, 0, 0, .5);
+    width: 115%;
+    transition: ease-in-out .5s;
+}
+
+.categories-list > li:hover{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    padding-left: 25%;
+    background: rgba(255, 255, 255, .5);
+    width: 115%;
+    box-shadow: black 2px 2px 5px 1px;
+    transition: ease-in-out .5s;
+}
+
+.delete-category-button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding-right: 15%;
+}
+
+.delete-category-button:hover {
+    color: darkred;
+}
