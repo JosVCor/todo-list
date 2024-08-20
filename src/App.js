@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import ToDoList from "./components/ToDoList";
 import AddToDoForm from "./components/AddToDoForm";
-import SideBar from "./components/SideBar";
 
 function App() {
     // Load tasks from local storage or set an empty array if there are no tasks

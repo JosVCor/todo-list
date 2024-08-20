@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './AddToDoForm.css';
 
 const AddToDoForm = ({ tasks, setTasks, showForm, setShowForm, categories = [], setCategories }) => {
-    const [newCategory, setNewCategory] = useState(''); // For new category input
     const [selectedCategory, setSelectedCategory] = useState(''); // For selected category from dropdown
     const [highPriority, setHighPriority] = useState(false);
     const [mediumPriority, setMediumPriority] = useState(false);
@@ -113,7 +112,7 @@ const AddToDoForm = ({ tasks, setTasks, showForm, setShowForm, categories = [], 
         if (!categories.includes(selectedCategory)) {
             setSelectedCategory('');
         }
-    }, [categories]);
+    }, [categories, selectedCategory]);
 
     return (
         <div>
